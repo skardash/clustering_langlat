@@ -1,11 +1,20 @@
-print(__doc__)
+import sys
+# print(__doc__)
+
+print len(sys.argv)
+if len(sys.argv) < 3:
+	eps_set = 0.3
+	min_samples_set = 3
+else: 
+	eps_set = float(sys.argv[1])
+	min_samples_set = int(sys.argv[2])
 
 import numpy as np
 
 from sklearn.cluster import DBSCAN
 from sklearn import metrics
-from sklearn.datasets.samples_generator import make_blobs
-from sklearn.preprocessing import StandardScaler
+#from sklearn.datasets.samples_generator import make_blobs
+#from sklearn.preprocessing import StandardScaler
 
 def read_data():
 	import numpy as np
@@ -19,30 +28,31 @@ def read_data():
 
 Xs = read_data()
 
-print "--------X--------"
-print Xs
+#print "--------X--------"
+#print Xs
 
 #print "--------labels_true--------"
 #print labels_true
 
-X = Xs # StandardScaler().fit_transform(Xs)
-print "--------X transformed--------"
-print X
 
-db = DBSCAN(eps=0.5, min_samples=3).fit(X)
-print "-------- db --------"
-print db
+X = Xs # StandardScaler().fit_transform(Xs)
+#print "--------X transformed--------"
+#print X
+
+db = DBSCAN(eps=eps_set, min_samples=min_samples_set).fit(X)
+#print "-------- db --------"
+#print db
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 labels = db.labels_
 
-print "--------core_sample_indices--------"
-print db.core_sample_indices_
+#print "--------core_sample_indices--------"
+#print db.core_sample_indices_
 
-print "--------labels--------"
-print labels
+#print "--------labels--------"
+#print labels
 
-print max(labels)
+#print max(labels)
 
 result = []
 for j in range(0, max(labels)+1):
